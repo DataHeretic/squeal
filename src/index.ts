@@ -1,1 +1,0 @@
-const squeal = new Squeal();

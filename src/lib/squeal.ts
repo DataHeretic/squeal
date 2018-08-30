@@ -1,3 +1,4 @@
 class Squeal {
-
 }
+
+export { Squeal };
