@@ -21,7 +21,6 @@
     "no-method-signature": true,
     "no-console": false,
     // Functional style rules
-    "no-this": true,
     "no-mixed-interface": true,
     "no-if-statement": true
     /* end tslint-immutable rules */
