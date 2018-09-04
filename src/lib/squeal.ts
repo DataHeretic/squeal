@@ -20,9 +20,9 @@ class Squeal {
 
     public run(testCase: TestCase, events: Events): void {
         this.dataSource.send(testCase.given);
-        const when = this.dataSource.send(testCase.when);
+        const whenResult = this.dataSource.send(testCase.when);
        
-        if(testCase.then !== when) {
+        if(testCase.then !== whenResult) {
             this.emitFailure(events);
         } else {
             this.emitSuccess(events);
