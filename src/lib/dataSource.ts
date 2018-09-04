@@ -1,8 +1,6 @@
-import { print } from "util";
-
 class DataSource {
-    public send(command: string):void {
-        print(command);
+    public send(command: string):string {
+        return command;
     }
 }
 

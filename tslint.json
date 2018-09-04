@@ -11,18 +11,16 @@
     "no-var-keyword": true,
     "no-parameter-reassignment": true,
     "typedef": [true, "call-signature"],
-
+    "max-classes-per-file": [true, 2],
     // Immutability rules
     "readonly-keyword": true,
     "readonly-array": true,
-    "no-let": true,
     "no-object-mutation": true,
     "no-delete": true,
     "no-method-signature": true,
     "no-console": false,
     // Functional style rules
-    "no-mixed-interface": true,
-    "no-if-statement": true
+    "no-mixed-interface": true
     /* end tslint-immutable rules */
   }
 }
