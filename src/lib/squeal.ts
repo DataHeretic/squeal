@@ -1,15 +1,6 @@
 import { DataSource } from './datasource';
+import { Events } from './events';
 import { TestCase } from './testCase';
-
-class Events {
-    public readonly onFailure?: () => void;
-    public readonly onSuccess?: () => void;
-
-    constructor(onFailure?: () => void, onSuccess?: () => void) {
-        this.onFailure = onFailure;
-        this.onSuccess = onSuccess;
-    }
-}
 
 class Squeal {
     private readonly dataSource: DataSource;
@@ -42,4 +33,4 @@ class Squeal {
     }
 }
 
-export { Squeal, Events };
+export { Squeal };

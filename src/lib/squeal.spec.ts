@@ -1,6 +1,7 @@
 import { instance, mock, verify, when } from 'ts-mockito';
 import { DataSource } from './datasource';
-import { Events, Squeal } from './squeal';
+import { Events } from './events';
+import { Squeal } from './squeal';
 import { TestCase } from './testCase';
 
 describe('squeal', () => {
