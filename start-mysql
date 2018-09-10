@@ -2,4 +2,4 @@
 
 docker stop squeal-mysql
 docker rm squeal-mysql
-docker run --name squeal-mysql -e MYSQL_ROOT_PASSWORD=password -d mysql:8.0.12
+docker run -p 3306:3306 --name squeal-mysql -e MYSQL_ROOT_PASSWORD=password -d mysql:5.7.23

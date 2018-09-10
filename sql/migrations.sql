@@ -1,0 +1,3 @@
+CREATE DATABASE squeal;
+USE DATABASE squeal;
+CREATE TABLE pets (name VARCHAR(20), status VARCHAR(20));
