@@ -16,4 +16,18 @@ describe('MySQL datasource', () => {
             done();
         });
     });
+
+    it('should send a query command to the MySQL database', (done) => {
+        fixture.connect((connectErrorMessage?: string) => {
+            if(connectErrorMessage) {
+                fail('error should not have occurred: ' + connectErrorMessage);
+                done();
+            }
+            fixture.send('select 1', (row: any, sendErrorMessage?: string) => {
+                expect(row).toBeTruthy();
+                expect(sendErrorMessage).toBeUndefined();
+                done();
+            });
+        });
+    });
 });
