@@ -8,26 +8,28 @@ describe('MySQL datasource', () => {
     });
 
     it('should connect to a MySQL database', (done) => {
-        fixture.connect((error?: string) => {
-            if(error) {
-                fail('error should not have occurred: ' + error);
+        fixture.connect().then(
+            () => done(),
+            (error) => { 
+                fail('error should not have occurred: ' + error)
                 done();
             }
-            done();
-        });
+        );
     });
 
     it('should send a query command to the MySQL database', (done) => {
-        fixture.connect((connectErrorMessage?: string) => {
-            if(connectErrorMessage) {
-                fail('error should not have occurred: ' + connectErrorMessage);
+        fixture.connect().then(
+            () => {
+                fixture.send('select 1', (row: any, sendErrorMessage?: string) => {
+                    expect(row).toBeTruthy();
+                    expect(sendErrorMessage).toBeUndefined();
+                    done();
+                });
+            },
+            (error) => { 
+                fail('error should not have occurred: ' + error)
                 done();
             }
-            fixture.send('select 1', (row: any, sendErrorMessage?: string) => {
-                expect(row).toBeTruthy();
-                expect(sendErrorMessage).toBeUndefined();
-                done();
-            });
-        });
+        );
     });
 });

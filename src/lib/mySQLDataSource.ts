@@ -14,10 +14,13 @@ class MySQLDataSource {
         });
     }
 
-    public connect(onConnect: (errorMessage?: string) => void): void {
-        this.connection.connect((mySqlError: MysqlError) => {
-            onConnect(mySqlError ? mySqlError.message : undefined);
+    public connect(): Promise<void> {
+        const promise = new Promise<void>((resolve, reject) => {
+            this.connection.connect((mySqlError: MysqlError) => {
+                mySqlError ? reject(mySqlError.message) : resolve();
+            });
         });
+        return promise;
     }
 
     public send(command: string, onResult: (row?: any, errorMessage?: string) => void): void {
