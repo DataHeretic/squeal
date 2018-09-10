@@ -15,20 +15,21 @@ class MySQLDataSource {
     }
 
     public connect(): Promise<void> {
-        const promise = new Promise<void>((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
             this.connection.connect((mySqlError: MysqlError) => {
                 mySqlError ? reject(mySqlError.message) : resolve();
             });
         });
-        return promise;
     }
 
-    public send(command: string, onResult: (row?: any, errorMessage?: string) => void): void {
-        this.connection.query(command).on('error', (mySqlError: MysqlError) => { 
-            onResult(undefined, mySqlError.message);
-        }).on('result', (row: any) => {
-            onResult(row, undefined);
-        })
+    public send(command: string): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+            this.connection.query(command).on('error', (mySqlError: MysqlError) => { 
+                reject(mySqlError.message);
+            }).on('result', (row: any) => {
+                resolve(row);
+            })
+        });
     }
 }
 
