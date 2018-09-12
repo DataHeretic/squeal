@@ -1,8 +1,5 @@
 class Events {
-    public readonly onFailure?: () => void;
-    public readonly onSuccess?: () => void;
-
-    constructor(onFailure?: () => void, onSuccess?: () => void) {
+    constructor(public readonly onFailure?: () => void, public readonly onSuccess?: () => void) {
         this.onFailure = onFailure;
         this.onSuccess = onSuccess;
     }

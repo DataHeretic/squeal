@@ -3,9 +3,8 @@ import { Events } from './events';
 import { TestCase } from './testCase';
 
 class Squeal {
-    private readonly dataSource: DataSource;
     
-    constructor(dataSource: DataSource) {
+    constructor(private readonly dataSource: DataSource) {
         this.dataSource = dataSource;
     }
 
