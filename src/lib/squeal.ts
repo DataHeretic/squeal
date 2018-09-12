@@ -5,7 +5,6 @@ import { TestCase } from './testCase';
 class Squeal {
     
     constructor(private readonly dataSource: DataSource) {
-        this.dataSource = dataSource;
     }
 
     public run(testCase: TestCase, events: Events): void {
