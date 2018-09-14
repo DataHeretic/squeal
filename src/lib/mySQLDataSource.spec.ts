@@ -16,4 +16,10 @@ describe('MySQL datasource', () => {
         const result = await fixture.send('select 1');
         expect(result).toBeTruthy();
     });
+
+    it('should return rows', async() => {
+        await fixture.connect();
+        const result = await fixture.send('select * from pets');
+        expect(result).toEqual([{ name: 'max', status: 'awesome' }, { name: 'nook', status: 'awesome' }]);
+    });
 });

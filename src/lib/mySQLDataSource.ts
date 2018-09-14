@@ -22,12 +22,15 @@ class MySQLDataSource {
         });
     }
 
-    public send(command: string): Promise<void> {
-        return new Promise<void>((resolve, reject) => {
+    public send(command: string): Promise<ReadonlyArray<any>> {
+        const rows: any = [];
+        return new Promise<ReadonlyArray<any>>((resolve, reject) => {
             this.connection.query(command).on('error', (mySqlError: MysqlError) => { 
                 reject(mySqlError.message);
             }).on('result', (row: any) => {
-                resolve(row);
+                rows.push({...row});
+            }).on('end', () => {
+                resolve(rows);
             })
         });
     }
