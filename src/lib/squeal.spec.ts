@@ -12,14 +12,14 @@ describe('squeal', () => {
         dataSource = mock(DataSource);
         testCase = {
             given: "insert into pets (name, status) values ('pet1', 'pending');",
-            then: "pet1|pending",
+            then: [{name: "pet1", status: "pending"}],
             when: "select * from pets",
         };
         fixture = new Squeal(instance(dataSource));
     });
 
     it('should fail when the test case \'then\' value does not equal the result of the \'when\' clause', async() => {
-        when(dataSource.send(testCase.when)).thenReturn('not|the|same|as|then');
+        when(dataSource.send(testCase.when)).thenReturn([{name: "pet1", status: "notPending"}]);
         try {
             await fixture.run(testCase);
             fail('should have thrown an exception denoting failure');
@@ -29,14 +29,9 @@ describe('squeal', () => {
     });
 
     it('should succeed when the test case \'then\' value equals the result of the \'when\' clause', async() => {
-        when(dataSource.send(testCase.when)).thenReturn('pet1|pending');
-        
+        when(dataSource.send(testCase.when)).thenReturn([{name: "pet1", status: "pending"}]);
         await fixture.run(testCase);
-        
         verifyDataSourceWasSentTestCaseWhenAndGiven();
-
-        verify(dataSource.send(testCase.when)).called();
-        verify(dataSource.send(testCase.given)).called();
     });
 
     function verifyDataSourceWasSentTestCaseWhenAndGiven(): void {

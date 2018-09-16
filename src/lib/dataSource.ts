@@ -1,6 +1,6 @@
 class DataSource {
-    public send(command: string):string {
-        return command;
+    public send(command: string):ReadonlyArray<any> {
+        return [command];
     }
 }
 

@@ -1,3 +1,4 @@
+import { isEqual } from 'lodash';
 import { DataSource } from './datasource';
 import { TestCase } from './testCase';
 
@@ -10,7 +11,7 @@ class Squeal {
         return new Promise<void>((resolve, reject) => {
             this.dataSource.send(testCase.given);
             const whenResult = this.dataSource.send(testCase.when);
-            testCase.then !== whenResult ? reject('failed') : resolve();
+            isEqual(testCase.then, whenResult) ? resolve() : reject('failed');
         });
     } 
 }
