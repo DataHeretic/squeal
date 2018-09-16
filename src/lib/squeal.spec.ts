@@ -1,13 +1,11 @@
 import { instance, mock, verify, when } from 'ts-mockito';
 import { DataSource } from './datasource';
-import { Events } from './events';
 import { Squeal } from './squeal';
 import { TestCase } from './testCase';
 
 describe('squeal', () => {
     let fixture: Squeal;
     let testCase: TestCase;
-    let events: Events;
     let dataSource: DataSource;
 
     beforeEach(() => {
@@ -18,38 +16,31 @@ describe('squeal', () => {
             when: "select * from pets",
         };
         fixture = new Squeal(instance(dataSource));
-        events = new Events();
     });
 
-    it('should run a test case against a datasource', () => {
-        fixture.run(testCase, events);
-
-        verify(dataSource.send(testCase.given)).called();
-        verify(dataSource.send(testCase.when)).called();
-    });
-
-    it('should fail when the test case \'then\' value does not equal the result of the \'when\' clause', () => {
-        const onFailure = jasmine.createSpy('onFailure');
-        const onSuccess = jasmine.createSpy('onSuccess');
-
+    it('should fail when the test case \'then\' value does not equal the result of the \'when\' clause', async() => {
         when(dataSource.send(testCase.when)).thenReturn('not|the|same|as|then');
-        
-        fixture.run(testCase, {onFailure, onSuccess});
-        
-        expect(onFailure).toHaveBeenCalled();
-        expect(onSuccess).not.toHaveBeenCalled();
+        try {
+            await fixture.run(testCase);
+            fail('should have thrown an exception denoting failure');
+        } catch(e) {
+            verifyDataSourceWasSentTestCaseWhenAndGiven();
+        }
     });
 
-    it('should succeed when the test case \'then\' value equals the result of the \'when\' clause', () => {
-        const onFailure = jasmine.createSpy('onFailure');
-        const onSuccess = jasmine.createSpy('onSuccess');
+    it('should succeed when the test case \'then\' value equals the result of the \'when\' clause', async() => {
+        when(dataSource.send(testCase.when)).thenReturn('pet1|pending');
         
-        when(dataSource.send(testCase.when)).thenReturn(testCase.then);
+        await fixture.run(testCase);
         
-        fixture.run(testCase, {onSuccess, onFailure});
-        
-        expect(onSuccess).toHaveBeenCalled();
-        expect(onFailure).not.toHaveBeenCalled();
+        verifyDataSourceWasSentTestCaseWhenAndGiven();
+
+        verify(dataSource.send(testCase.when)).called();
+        verify(dataSource.send(testCase.given)).called();
     });
 
+    function verifyDataSourceWasSentTestCaseWhenAndGiven(): void {
+        verify(dataSource.send(testCase.when)).called();
+        verify(dataSource.send(testCase.given)).called();
+    }
 });
